@@ -12,6 +12,12 @@ class MoviesController < ApplicationController
         @hilite = sort = params[:sort]
         @movies = Movie.order(sort)
       end
+      @all_ratings = Movie.ratings
+      @checked_ratings = @all_ratings
+      if params.key?(:ratings)
+        @checked_ratings = (params[:ratings].keys if params.key?(:ratings))
+        @movies = Movie.where(rating: @checked_ratings)
+      end
     end
   
     def new
